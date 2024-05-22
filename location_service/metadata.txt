@@ -1,0 +1,17 @@
+[general]
+name=Amazon Location Service
+description=QGIS Plugin for Amazon Location Service
+about=This plugin uses the functionality of Amazon Location Service in QGIS.
+qgisMinimumVersion=3.0
+version=1.0
+
+#Plugin main icon
+icon=ui/icon.png
+
+author=Yasunori Kirimoto
+email=info@dayjournal.dev
+homepage=https://dayjournal.dev
+tracker=https://github.com/dayjournal/qgis-amazonlocationservice-plugin/issues
+repository=https://github.com/dayjournal/qgis-amazonlocationservice-plugin
+tags=aws,amazonlocationservice,map,geocoding,routing
+category=
