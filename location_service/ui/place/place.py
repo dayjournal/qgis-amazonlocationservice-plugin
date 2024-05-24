@@ -1,10 +1,11 @@
 import os
+
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt import uic
 from qgis.utils import iface
 
-from ...utils.click_handler import MapClickCoordinateUpdater
 from ...functions.place import PlaceFunctions
+from ...utils.click_handler import MapClickCoordinateUpdater
 
 
 class PlaceUi(QDialog):
@@ -38,9 +39,7 @@ class PlaceUi(QDialog):
             result = self.place.search_place_index_for_position(lon, lat)
             self.place.add_point_layer(result)
         except Exception as e:
-            QMessageBox.critical(
-                self, "Search Error", f"Failed to search place: {str(e)}"
-            )
+            QMessageBox.critical(self, "Search Error", f"Failed to search place: {e!r}")
         finally:
             self.close()
 

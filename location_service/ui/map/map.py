@@ -1,9 +1,10 @@
 import os
+
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt import uic
 
-from ...utils.configuration_handler import ConfigurationHandler
 from ...functions.map import MapFunctions
+from ...utils.configuration_handler import ConfigurationHandler
 
 
 class MapUi(QDialog):
@@ -43,7 +44,7 @@ class MapUi(QDialog):
             self.close()
         except Exception as e:
             QMessageBox.critical(
-                self, "Error", f"Failed to add vector tile layer: {str(e)}"
+                self, "Error", f"Failed to add vector tile layer: {e!r}"
             )
 
     def _cancel(self) -> None:

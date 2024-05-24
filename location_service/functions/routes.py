@@ -1,18 +1,20 @@
-from typing import Dict, Tuple, Any
+from typing import Any, Dict, Tuple
+
 from PyQt5.QtCore import QVariant
 from PyQt5.QtGui import QColor
 from qgis.core import (
-    QgsProject,
-    QgsVectorLayer,
-    QgsFields,
-    QgsField,
-    QgsPointXY,
     QgsFeature,
+    QgsField,
+    QgsFields,
     QgsGeometry,
+    QgsPointXY,
+    QgsProject,
     QgsSimpleLineSymbolLayer,
-    QgsSymbol,
     QgsSingleSymbolRenderer,
+    QgsSymbol,
+    QgsVectorLayer,
 )
+
 from ..utils.configuration_handler import ConfigurationHandler
 from ..utils.external_api_handler import ExternalApiHandler
 

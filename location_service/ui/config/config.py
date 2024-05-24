@@ -1,4 +1,5 @@
 import os
+
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt import uic
 
@@ -72,7 +73,7 @@ class ConfigUi(QDialog):
             for key, value in settings.items():
                 self.configuration_handler.store_setting(key, value)
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to save settings: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Failed to save settings: {e!r}")
         else:
             self.close()
 

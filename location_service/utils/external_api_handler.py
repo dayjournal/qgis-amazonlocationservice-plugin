@@ -1,7 +1,8 @@
 import json
-from typing import Dict, Any, Optional
-from PyQt5.QtCore import QUrl, QEventLoop
-from PyQt5.QtNetwork import QNetworkRequest, QNetworkReply
+from typing import Any, Dict, Optional
+
+from PyQt5.QtCore import QEventLoop, QUrl
+from PyQt5.QtNetwork import QNetworkReply, QNetworkRequest
 from qgis.core import QgsNetworkAccessManager
 
 
@@ -37,10 +38,10 @@ class ExternalApiHandler:
         request = QNetworkRequest(QUrl(url))
         request.setHeader(QNetworkRequest.ContentTypeHeader, self.JSON_CONTENT_TYPE)
         encoded_data = json.dumps(data).encode(self.UTF8_ENCODING)
-        eventLoop = QEventLoop()
+        event_loop = QEventLoop()
         reply = self.network_manager.post(request, encoded_data)
-        reply.finished.connect(eventLoop.quit)
-        eventLoop.exec_()
+        reply.finished.connect(event_loop.quit)
+        event_loop.exec_()
         return self.handle_network_reply(reply)
 
     def handle_network_reply(self, reply: QNetworkReply) -> Optional[Dict[str, Any]]:

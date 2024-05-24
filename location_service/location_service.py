@@ -1,8 +1,9 @@
 import os
-from typing import Optional, Callable
+from typing import Callable, Optional
+
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QWidget
-from PyQt5.QtCore import Qt
 
 from .ui.config.config import ConfigUi
 from .ui.map.map import MapUi
