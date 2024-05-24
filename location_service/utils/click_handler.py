@@ -1,11 +1,12 @@
 from typing import Any
-from qgis.gui import QgsMapTool, QgsMapCanvas, QgsMapMouseEvent
+
 from qgis.core import (
     QgsCoordinateReferenceSystem,
-    QgsProject,
     QgsCoordinateTransform,
     QgsPointXY,
+    QgsProject,
 )
+from qgis.gui import QgsMapCanvas, QgsMapMouseEvent, QgsMapTool
 
 
 class MapClickCoordinateUpdater(QgsMapTool):

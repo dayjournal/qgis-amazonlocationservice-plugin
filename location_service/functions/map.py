@@ -1,4 +1,5 @@
 from typing import Tuple
+
 from qgis.core import QgsProject, QgsVectorTileLayer
 
 from ..utils.configuration_handler import ConfigurationHandler
@@ -53,6 +54,6 @@ class MapFunctions:
             QgsProject.instance().addMapLayer(vector_tile)
             vector_tile.loadDefaultStyle()
         except KeyError as e:
-            raise KeyError(f"Missing configuration for {e}")
+            raise KeyError(f"Missing configuration for {e!r}") from e
         except Exception as e:
-            raise Exception(f"Failed to load vector tile layer: {str(e)}")
+            raise Exception(f"Failed to load vector tile layer: {e!r}") from e

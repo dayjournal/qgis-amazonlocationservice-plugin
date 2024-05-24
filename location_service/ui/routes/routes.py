@@ -1,10 +1,11 @@
 import os
+
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt import uic
 from qgis.utils import iface
 
-from ...utils.click_handler import MapClickCoordinateUpdater
 from ...functions.routes import RoutesFunctions
+from ...utils.click_handler import MapClickCoordinateUpdater
 
 
 class RoutesUi(QDialog):
@@ -42,7 +43,7 @@ class RoutesUi(QDialog):
             result = self.routes.calculate_route(st_lon, st_lat, ed_lon, ed_lat)
             self.routes.add_line_layer(result)
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to calculate route: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Failed to calculate route: {e!r}")
         finally:
             self.close()
 

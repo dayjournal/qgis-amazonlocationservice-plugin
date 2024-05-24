@@ -1,4 +1,5 @@
-from typing import Any, Dict
+from typing import Any, ClassVar, Dict
+
 from PyQt5.QtCore import QSettings
 
 
@@ -8,10 +9,10 @@ class ConfigurationHandler:
     Amazon Location Service Plugin.
     """
 
-    _instance = None
-    _settings: Dict[str, Any] = {}
-    SETTING_GROUP = "/location-service"
-    DEFAULT_SETTINGS: Dict[str, str] = {
+    _instance: ClassVar[None] = None
+    _settings: ClassVar[Dict[str, Any]] = {}
+    SETTING_GROUP: ClassVar[str] = "/location-service"
+    DEFAULT_SETTINGS: ClassVar[Dict[str, str]] = {
         "region_value": "",
         "apikey_value": "",
         "map_value": "",
@@ -27,7 +28,7 @@ class ConfigurationHandler:
             ConfigurationHandler: A singleton instance of the ConfigurationHandler.
         """
         if not cls._instance:
-            cls._instance = super(ConfigurationHandler, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
     def __init__(self) -> None:
