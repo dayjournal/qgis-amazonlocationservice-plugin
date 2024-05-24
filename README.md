@@ -37,6 +37,8 @@ Select from the following to build your resources
 1. Select "Plugins" → "Manage and Install Plugins..."
 2. Search for "Amazon Location Service"
 
+Plugins can also be installed by loading a [zip file](https://github.com/dayjournal/qgis-amazonlocationservice-plugin/releases).
+
 ### Menu
 
 ![menu](img/menu.png)

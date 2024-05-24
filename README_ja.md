@@ -37,6 +37,8 @@ QGISでAmazon Location Serviceの機能を利用するプラグインです。
 1. 「プラグイン」→「プラグインを管理およびインストール」を選択
 2. 「Amazon Location Service」で検索
 
+プラグインは[zipファイル](https://github.com/dayjournal/qgis-amazonlocationservice-plugin/releases)を読み込みでもインストール可能
+
 ### メニュー
 
 ![menu](img/menu.png)
