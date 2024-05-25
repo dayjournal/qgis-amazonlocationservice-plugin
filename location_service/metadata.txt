@@ -10,7 +10,7 @@ icon=ui/icon.png
 
 author=Yasunori Kirimoto
 email=info@dayjournal.dev
-homepage=https://dayjournal.dev
+homepage=https://github.com/dayjournal/qgis-amazonlocationservice-plugin
 tracker=https://github.com/dayjournal/qgis-amazonlocationservice-plugin/issues
 repository=https://github.com/dayjournal/qgis-amazonlocationservice-plugin
 tags=aws,amazonlocationservice,map,geocoding,routing
