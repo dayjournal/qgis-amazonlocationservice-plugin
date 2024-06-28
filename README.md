@@ -15,6 +15,8 @@ This plugin uses the functionality of Amazon Location Service in QGIS.
 
 ## blog
 
+[Amazon Location Service Plugin for QGIS released in OSS](https://dev.to/aws-heroes/amazon-location-service-plugin-for-qgis-released-in-oss-28fd)  
+
 ## Usage
 
 ### Building an Amazon Location Service Resources

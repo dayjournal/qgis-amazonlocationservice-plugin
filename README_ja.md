@@ -15,6 +15,8 @@ QGISでAmazon Location Serviceの機能を利用するプラグインです。
 
 ## blog
 
+[QGIS版Amazon Location Service PluginをOSSで公開](https://zenn.dev/mierune/articles/try-110-qgis-amazonlocationservice-plugin)  
+
 ## 利用方法
 
 ### Amazon Location Serviceのリソース構築
