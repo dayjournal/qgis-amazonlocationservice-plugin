@@ -14,7 +14,7 @@ class MapsUi(QDialog):
     """
 
     UI_PATH = os.path.join(os.path.dirname(__file__), "maps.ui")
-    KEY_MAP = "map_value"
+    MAP_STYLES = ("Standard", "Monochrome", "Hybrid", "Satellite")
 
     def __init__(self) -> None:
         """
@@ -32,15 +32,16 @@ class MapsUi(QDialog):
         """
         Populates the maps options dropdown with available configurations.
         """
-        map = self.configuration_handler.get_setting(self.KEY_MAP)
-        self.style_comboBox.addItem(map)
+        for style in self.MAP_STYLES:
+            self.style_comboBox.addItem(style)
 
     def _add(self) -> None:
         """
         Adds the selected vector tile layer to the QGIS project and closes the dialog.
         """
         try:
-            self.maps.add_vector_tile_layer()
+            select_style = self.style_comboBox.currentText()
+            self.maps.add_vector_tile_layer(select_style)
             self.close()
         except Exception as e:
             QMessageBox.critical(

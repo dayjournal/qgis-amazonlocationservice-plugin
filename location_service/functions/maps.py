@@ -12,7 +12,6 @@ class MapsFunctions:
     """
 
     KEY_REGION = "region_value"
-    KEY_MAP = "map_value"
     KEY_APIKEY = "apikey_value"
 
     def __init__(self) -> None:
@@ -21,36 +20,35 @@ class MapsFunctions:
         """
         self.configuration_handler = ConfigurationHandler()
 
-    def get_configuration_settings(self) -> Tuple[str, str, str]:
+    def get_configuration_settings(self) -> Tuple[str, str]:
         """
         Fetches necessary configuration settings from the settings manager.
 
         Returns:
-            Tuple[str, str, str]: A tuple containing the region,
+            Tuple[str, str]: A tuple containing the region,
             maps name, and API key.
         """
         region = self.configuration_handler.get_setting(self.KEY_REGION)
-        map = self.configuration_handler.get_setting(self.KEY_MAP)
         apikey = self.configuration_handler.get_setting(self.KEY_APIKEY)
-        return region, map, apikey
+        return region, apikey
 
-    def add_vector_tile_layer(self) -> None:
+    def add_vector_tile_layer(self, selected_style: str) -> str:
         """
         Adds a vector tile layer into the current QGIS project using
         configuration settings.
         """
         try:
-            region_value, map_value, apikey_value = self.get_configuration_settings()
+            region_value, apikey_value = self.get_configuration_settings()
             style_url = (
-                f"https://maps.geo.{region_value}.amazonaws.com/maps/v0/maps/"
-                f"{map_value}/style-descriptor?key={apikey_value}"
+                f"https://maps.geo.{region_value}.amazonaws.com/v2/styles/"
+                f"{selected_style}/descriptor?key={apikey_value}"
             )
             tile_url = (
-                f"https://maps.geo.{region_value}.amazonaws.com/maps/v0/maps/"
-                f"{map_value}/tiles/{{z}}/{{x}}/{{y}}?key={apikey_value}"
+                f"https://maps.geo.{region_value}.amazonaws.com/v2/tiles/"
+                f"vector.basemap/{{z}}/{{x}}/{{y}}?key={apikey_value}"
             )
             layer_url = f"styleUrl={style_url}&type=xyz&url={tile_url}&zmax=14&zmin=0"
-            vector_tile = QgsVectorTileLayer(layer_url, map_value)
+            vector_tile = QgsVectorTileLayer(layer_url, selected_style)
             QgsProject.instance().addMapLayer(vector_tile)
             vector_tile.loadDefaultStyle()
         except KeyError as e:
