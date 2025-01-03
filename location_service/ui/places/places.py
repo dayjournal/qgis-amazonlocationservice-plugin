@@ -4,21 +4,21 @@ from PyQt5.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt import uic
 from qgis.utils import iface
 
-from ...functions.place import PlaceFunctions
+from ...functions.places import PlacesFunctions
 from ...utils.click_handler import MapClickCoordinateUpdater
 
 
-class PlaceUi(QDialog):
+class PlacesUi(QDialog):
     """
-    Manages place search and visualization in a QGIS project.
+    Manages places search and visualization in a QGIS project.
     """
 
-    UI_PATH = os.path.join(os.path.dirname(__file__), "place.ui")
+    UI_PATH = os.path.join(os.path.dirname(__file__), "places.ui")
 
     def __init__(self) -> None:
         """
-        Initializes the Place dialog, loads UI components, and populates
-        the place options.
+        Initializes the Places dialog, loads UI components, and populates
+        the places options.
         """
         super().__init__()
         self.ui = uic.loadUi(self.UI_PATH, self)
@@ -26,20 +26,20 @@ class PlaceUi(QDialog):
         self.button_click.clicked.connect(self._click)
         self.button_search.clicked.connect(self._search)
         self.button_cancel.clicked.connect(self._cancel)
-        self.place_comboBox.addItem("SearchPlaceIndexForPosition")
-        self.place = PlaceFunctions()
+        self.places_comboBox.addItem("SearchPlaceIndexForPosition")
+        self.places = PlacesFunctions()
 
     def _search(self) -> None:
         """
-        Performs a place search and visualizes the results on the map.
+        Performs a places search and visualizes the results on the map.
         """
         lon = self.lon_lineEdit.text()
         lat = self.lat_lineEdit.text()
         try:
-            result = self.place.search_place_index_for_position(lon, lat)
-            self.place.add_point_layer(result)
+            result = self.places.search_place_index_for_position(lon, lat)
+            self.places.add_point_layer(result)
         except Exception as e:
-            QMessageBox.critical(self, "Search Error", f"Failed to search place: {e!r}")
+            QMessageBox.critical(self, "Search Error", f"Failed to search places: {e!r}")
         finally:
             self.close()
 
@@ -53,5 +53,5 @@ class PlaceUi(QDialog):
         """
         Sets a custom map tool to capture map clicks and populate coordinates.
         """
-        self.MapClick = MapClickCoordinateUpdater(self.canvas, self.ui, "place")
+        self.MapClick = MapClickCoordinateUpdater(self.canvas, self.ui, "places")
         self.canvas.setMapTool(self.MapClick)

@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QAction, QWidget
 
 from .ui.config.config import ConfigUi
 from .ui.maps.maps import MapsUi
-from .ui.place.place import PlaceUi
+from .ui.places.places import PlacesUi
 from .ui.routes.routes import RoutesUi
 from .ui.terms.terms import TermsUi
 
@@ -35,10 +35,10 @@ class LocationService:
         self.toolbar.setObjectName(self.MAIN_NAME)
         self.config = ConfigUi()
         self.maps = MapsUi()
-        self.place = PlaceUi()
+        self.places = PlacesUi()
         self.routes = RoutesUi()
         self.terms = TermsUi()
-        for component in [self.config, self.maps, self.place, self.routes]:
+        for component in [self.config, self.maps, self.places, self.routes]:
             component.hide()
 
     def add_action(
@@ -89,7 +89,7 @@ class LocationService:
         """
         Initializes the GUI components, adding actions to the interface.
         """
-        components = ["config", "maps", "place", "routes", "terms"]
+        components = ["config", "maps", "places", "routes", "terms"]
         for component_name in components:
             icon_path = os.path.join(
                 self.plugin_directory, f"ui/{component_name}/{component_name}.png"
@@ -124,12 +124,12 @@ class LocationService:
         self.maps.setWindowFlags(Qt.WindowStaysOnTopHint)  # type: ignore
         self.maps.show()
 
-    def show_place(self) -> None:
+    def show_places(self) -> None:
         """
-        Displays the place dialog window.
+        Displays the places dialog window.
         """
-        self.place.setWindowFlags(Qt.WindowStaysOnTopHint)  # type: ignore
-        self.place.show()
+        self.places.setWindowFlags(Qt.WindowStaysOnTopHint)  # type: ignore
+        self.places.show()
 
     def show_routes(self) -> None:
         """

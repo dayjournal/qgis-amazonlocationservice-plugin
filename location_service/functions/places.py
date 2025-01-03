@@ -22,13 +22,12 @@ from ..utils.configuration_handler import ConfigurationHandler
 from ..utils.external_api_handler import ExternalApiHandler
 
 
-class PlaceFunctions:
+class PlacesFunctions:
     """
     Manages the searching and visualization of places based on coordinates.
     """
 
     KEY_REGION = "region_value"
-    KEY_PLACE = "place_value"
     KEY_APIKEY = "apikey_value"
     PLACE_LANGUAGE = None
     PLACE_MAX_RESULTS = 10
@@ -51,18 +50,17 @@ class PlaceFunctions:
         self.configuration_handler = ConfigurationHandler()
         self.api_handler = ExternalApiHandler()
 
-    def get_configuration_settings(self) -> Tuple[str, str, str]:
+    def get_configuration_settings(self) -> Tuple[str, str]:
         """
         Fetches necessary configuration settings from the settings manager.
 
         Returns:
-            Tuple[str, str, str]: A tuple containing the
-            region, route calculator name, and API key.
+            Tuple[str, str]: A tuple containing the
+            region and API key.
         """
         region = self.configuration_handler.get_setting(self.KEY_REGION)
-        place = self.configuration_handler.get_setting(self.KEY_PLACE)
         apikey = self.configuration_handler.get_setting(self.KEY_APIKEY)
-        return region, place, apikey
+        return region, apikey
 
     def search_place_index_for_position(self, lon: float, lat: float) -> Dict[str, Any]:
         """
@@ -76,10 +74,10 @@ class PlaceFunctions:
         Returns:
             A dictionary containing the API request results with place information.
         """
-        region, place, apikey = self.get_configuration_settings()
+        region, apikey = self.get_configuration_settings()
         place_url = (
             f"https://places.geo.{region}.amazonaws.com/places/v0/indexes/"
-            f"{place}/search/position?key={apikey}"
+            f"/search/position?key={apikey}"
         )
         data = {
             "Language": self.PLACE_LANGUAGE,

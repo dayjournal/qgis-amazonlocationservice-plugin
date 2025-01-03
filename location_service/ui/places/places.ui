@@ -17,13 +17,13 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Place</string>
+   <string>Places</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="main_label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Place&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Places&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -40,14 +40,14 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_5">
       <item row="0" column="0">
-       <widget class="QLabel" name="place_label">
+       <widget class="QLabel" name="places_label">
         <property name="text">
          <string>Select Function</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="place_comboBox"/>
+       <widget class="QComboBox" name="places_comboBox"/>
       </item>
      </layout>
     </widget>
