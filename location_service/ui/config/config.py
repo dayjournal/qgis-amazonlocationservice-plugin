@@ -13,9 +13,6 @@ class ConfigUi(QDialog):
 
     UI_PATH = os.path.join(os.path.dirname(__file__), "config.ui")
     KEY_REGION = "region_value"
-    KEY_MAP = "map_value"
-    KEY_PLACE = "place_value"
-    KEY_ROUTES = "routes_value"
     KEY_APIKEY = "apikey_value"
 
     def __init__(self) -> None:
@@ -39,15 +36,9 @@ class ConfigUi(QDialog):
         Settings include:
         - region_value: AWS region
         - apikey_value: API key for authentication
-        - map_value: Map configuration identifier
-        - place_value: Place configuration identifier
-        - routes_value: Routes configuration identifier
         """
         for setting_key, line_edit in [
             (self.KEY_REGION, self.region_lineEdit),
-            (self.KEY_MAP, self.map_lineEdit),
-            (self.KEY_PLACE, self.place_lineEdit),
-            (self.KEY_ROUTES, self.routes_lineEdit),
             (self.KEY_APIKEY, self.apikey_lineEdit),
         ]:
             value = self.configuration_handler.get_setting(setting_key)
@@ -64,9 +55,6 @@ class ConfigUi(QDialog):
         """
         settings = {
             self.KEY_REGION: self.region_lineEdit.text(),
-            self.KEY_MAP: self.map_lineEdit.text(),
-            self.KEY_PLACE: self.place_lineEdit.text(),
-            self.KEY_ROUTES: self.routes_lineEdit.text(),
             self.KEY_APIKEY: self.apikey_lineEdit.text(),
         }
         try:
