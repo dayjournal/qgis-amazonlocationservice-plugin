@@ -29,14 +29,14 @@ class PlacesFunctions:
 
     KEY_REGION = "region_value"
     KEY_APIKEY = "apikey_value"
-    PLACE_LANGUAGE = None
-    PLACE_MAX_RESULTS = 10
+    PLACES_LANGUAGE = None
+    PLACES_MAX_RESULTS = 10
     WGS84_CRS = "EPSG:4326"
     LAYER_TYPE = "Point"
-    FIELD_LABEL = "Label"
-    FIELD_MUNICIPALITY = "Municipality"
+    FIELD_TITLE = "Title"
     FIELD_REGION = "Region"
-    FIELD_COUNTRY = "Country"
+    FIELD_LOCALITY = "Locality"
+    FIELD_LABEL = "Label"
     SYMBOL_SHAPE = QgsSimpleMarkerSymbolLayer.Circle
     SYMBOL_COLOR = QColor(0, 124, 191)
     SYMBOL_SIZE = 3.0
@@ -62,9 +62,9 @@ class PlacesFunctions:
         apikey = self.configuration_handler.get_setting(self.KEY_APIKEY)
         return region, apikey
 
-    def search_place_index_for_position(self, lon: float, lat: float) -> Dict[str, Any]:
+    def search_text(self, text: str, lon: float, lat: float) -> Dict[str, Any]:
         """
-        Searches for a place index based on the provided longitude and
+        Searches for a places index based on the provided longitude and
         latitude coordinates.
 
         Args:
@@ -76,13 +76,13 @@ class PlacesFunctions:
         """
         region, apikey = self.get_configuration_settings()
         place_url = (
-            f"https://places.geo.{region}.amazonaws.com/places/v0/indexes/"
-            f"/search/position?key={apikey}"
+            f"https://places.geo.{region}.amazonaws.com/v2/search-text?key={apikey}"
         )
         data = {
-            "Language": self.PLACE_LANGUAGE,
-            "MaxResults": self.PLACE_MAX_RESULTS,
-            "Position": [lon, lat],
+            "Language": self.PLACES_LANGUAGE,
+            "MaxResults": self.PLACES_MAX_RESULTS,
+            "QueryText": text,
+            "BiasPosition": [lon, lat],
         }
         result = self.api_handler.send_json_post_request(place_url, data)
         if result is None:
@@ -97,9 +97,8 @@ class PlacesFunctions:
             data (Dict): Data containing results from the search, including
                          location and place information.
         """
-        place = self.configuration_handler.get_setting(self.KEY_PLACE)
         layer = QgsVectorLayer(
-            f"{self.LAYER_TYPE}?crs={self.WGS84_CRS}", place, "memory"
+            f"{self.LAYER_TYPE}?crs={self.WGS84_CRS}", "SearchText", "memory"
         )
         self.setup_layer(layer, data)
 
@@ -113,7 +112,7 @@ class PlacesFunctions:
             data (Dict): Search results data used to populate the layer.
         """
         self.add_attributes(layer)
-        self.add_features(layer, data["Results"])
+        self.add_features(layer, data)
         self.apply_layer_style(layer)
         self.apply_label_style(layer)
         layer.triggerRepaint()
@@ -127,10 +126,10 @@ class PlacesFunctions:
             layer (QgsVectorLayer): The layer to which fields are added.
         """
         fields = QgsFields()
-        fields.append(QgsField(self.FIELD_LABEL, QVariant.String))
-        fields.append(QgsField(self.FIELD_MUNICIPALITY, QVariant.String))
+        fields.append(QgsField(self.FIELD_TITLE, QVariant.String))
         fields.append(QgsField(self.FIELD_REGION, QVariant.String))
-        fields.append(QgsField(self.FIELD_COUNTRY, QVariant.String))
+        fields.append(QgsField(self.FIELD_LOCALITY, QVariant.String))
+        fields.append(QgsField(self.FIELD_LABEL, QVariant.String))
         layer.dataProvider().addAttributes(fields)
         layer.updateFields()
 
@@ -143,22 +142,20 @@ class PlacesFunctions:
             data (Dict): The search results containing place information.
         """
         features = []
-        for result in data:
-            place = result["Place"]
+        for result in data.get("ResultItems", []):
+            address = result.get("Address", {})
             feature = QgsFeature(layer.fields())
             feature.setGeometry(
                 QgsGeometry.fromPointXY(
-                    QgsPointXY(
-                        place["Geometry"]["Point"][0], place["Geometry"]["Point"][1]
-                    )
+                    QgsPointXY(result["Position"][0], result["Position"][1])
                 )
             )
             feature.setAttributes(
                 [
-                    place.get("Label", ""),
-                    place.get("Municipality", ""),
-                    place.get("Region", ""),
-                    place.get("Country", ""),
+                    result.get("Title", ""),
+                    address.get("Region", {}).get("Name", ""),
+                    address.get("Locality", ""),
+                    address.get("Label", ""),
                 ]
             )
             features.append(feature)
@@ -187,7 +184,7 @@ class PlacesFunctions:
             layer (QgsVectorLayer): The layer to set up labeling for.
         """
         label_settings = QgsPalLayerSettings()
-        label_settings.fieldName = self.FIELD_LABEL
+        label_settings.fieldName = self.FIELD_TITLE
         label_settings.enabled = True
         text_format = QgsTextFormat()
         text_format.setSize(self.LABEL_TEXT_SIZE)

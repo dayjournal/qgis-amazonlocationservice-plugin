@@ -26,20 +26,30 @@ class PlacesUi(QDialog):
         self.button_click.clicked.connect(self._click)
         self.button_search.clicked.connect(self._search)
         self.button_cancel.clicked.connect(self._cancel)
-        self.places_comboBox.addItem("SearchPlaceIndexForPosition")
+        self.places_comboBox.addItem("SearchText")
         self.places = PlacesFunctions()
 
     def _search(self) -> None:
         """
         Performs a places search and visualizes the results on the map.
         """
+        text = self.text_lineEdit.text()
         lon = self.lon_lineEdit.text()
         lat = self.lat_lineEdit.text()
+        if not text or not lon or not lat:
+            QMessageBox.critical(
+                self,
+                "Input Error",
+                "All fields (Text, Longitude, Latitude) must be filled in.",
+            )
+            return
         try:
-            result = self.places.search_place_index_for_position(lon, lat)
+            result = self.places.search_text(text, lon, lat)
             self.places.add_point_layer(result)
         except Exception as e:
-            QMessageBox.critical(self, "Search Error", f"Failed to search places: {e!r}")
+            QMessageBox.critical(
+                self, "Search Error", f"Failed to search places: {e!r}"
+            )
         finally:
             self.close()
 
