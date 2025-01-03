@@ -27,7 +27,7 @@ class RoutesUi(QDialog):
         self.ed_button_click.clicked.connect(self._ed_click)
         self.button_search.clicked.connect(self._search)
         self.button_cancel.clicked.connect(self._cancel)
-        self.routes_comboBox.addItem("CalculateRoute")
+        self.routes_comboBox.addItem("CalculateRoutes")
         self.routes = RoutesFunctions()
 
     def _search(self) -> None:
@@ -40,10 +40,10 @@ class RoutesUi(QDialog):
         ed_lon = self.ed_lon_lineEdit.text()
         ed_lat = self.ed_lat_lineEdit.text()
         try:
-            result = self.routes.calculate_route(st_lon, st_lat, ed_lon, ed_lat)
+            result = self.routes.calculate_routes(st_lon, st_lat, ed_lon, ed_lat)
             self.routes.add_line_layer(result)
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to calculate route: {e!r}")
+            QMessageBox.critical(self, "Error", f"Failed to calculate routes: {e!r}")
         finally:
             self.close()
 
