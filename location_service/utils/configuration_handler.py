@@ -15,9 +15,6 @@ class ConfigurationHandler:
     DEFAULT_SETTINGS: ClassVar[Dict[str, str]] = {
         "region_value": "",
         "apikey_value": "",
-        "map_value": "",
-        "place_value": "",
-        "routes_value": "",
     }
 
     def __new__(cls) -> "ConfigurationHandler":

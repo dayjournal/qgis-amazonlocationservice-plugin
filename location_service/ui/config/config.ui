@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>365</width>
-    <height>327</height>
+    <height>220</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -58,45 +58,6 @@
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="apikey_lineEdit"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Resource Name</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="0">
-       <widget class="QLabel" name="routes_label">
-        <property name="text">
-         <string>Routes Name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="map_label">
-        <property name="text">
-         <string>Map Name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="place_label">
-        <property name="text">
-         <string>Place Name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="map_lineEdit"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="place_lineEdit"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="routes_lineEdit"/>
       </item>
      </layout>
     </widget>
