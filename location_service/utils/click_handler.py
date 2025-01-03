@@ -15,8 +15,8 @@ class MapClickCoordinateUpdater(QgsMapTool):
     """
 
     WGS84_CRS = "EPSG:4326"
-    PLACE_LONGITUDE = "lon_lineEdit"
-    PLACE_LATITUDE = "lat_lineEdit"
+    PLACES_LONGITUDE = "lon_lineEdit"
+    PLACES_LATITUDE = "lat_lineEdit"
     ST_ROUTES_LONGITUDE = "st_lon_lineEdit"
     ST_ROUTES_LATITUDE = "st_lat_lineEdit"
     ED_ROUTES_LONGITUDE = "ed_lon_lineEdit"
@@ -48,7 +48,7 @@ class MapClickCoordinateUpdater(QgsMapTool):
         field_mapping = {
             "st_routes": (self.ST_ROUTES_LONGITUDE, self.ST_ROUTES_LATITUDE),
             "ed_routes": (self.ED_ROUTES_LONGITUDE, self.ED_ROUTES_LATITUDE),
-            "place": (self.PLACE_LONGITUDE, self.PLACE_LATITUDE),
+            "places": (self.PLACES_LONGITUDE, self.PLACES_LATITUDE),
         }
         if self.active_type in field_mapping:
             lon_field, lat_field = field_mapping[self.active_type]
