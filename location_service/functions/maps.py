@@ -5,7 +5,7 @@ from qgis.core import QgsProject, QgsVectorTileLayer
 from ..utils.configuration_handler import ConfigurationHandler
 
 
-class MapFunctions:
+class MapsFunctions:
     """
     Manages the loading of vector tile layers into a QGIS project
     based on configurations.
@@ -27,7 +27,7 @@ class MapFunctions:
 
         Returns:
             Tuple[str, str, str]: A tuple containing the region,
-            route calculator name, and API key.
+            maps name, and API key.
         """
         region = self.configuration_handler.get_setting(self.KEY_REGION)
         map = self.configuration_handler.get_setting(self.KEY_MAP)

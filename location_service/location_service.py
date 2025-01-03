@@ -6,7 +6,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QWidget
 
 from .ui.config.config import ConfigUi
-from .ui.map.map import MapUi
+from .ui.maps.maps import MapsUi
 from .ui.place.place import PlaceUi
 from .ui.routes.routes import RoutesUi
 from .ui.terms.terms import TermsUi
@@ -34,11 +34,11 @@ class LocationService:
         self.toolbar = self.iface.addToolBar(self.MAIN_NAME)
         self.toolbar.setObjectName(self.MAIN_NAME)
         self.config = ConfigUi()
-        self.map = MapUi()
+        self.maps = MapsUi()
         self.place = PlaceUi()
         self.routes = RoutesUi()
         self.terms = TermsUi()
-        for component in [self.config, self.map, self.place, self.routes]:
+        for component in [self.config, self.maps, self.place, self.routes]:
             component.hide()
 
     def add_action(
@@ -89,7 +89,7 @@ class LocationService:
         """
         Initializes the GUI components, adding actions to the interface.
         """
-        components = ["config", "map", "place", "routes", "terms"]
+        components = ["config", "maps", "place", "routes", "terms"]
         for component_name in components:
             icon_path = os.path.join(
                 self.plugin_directory, f"ui/{component_name}/{component_name}.png"
@@ -117,12 +117,12 @@ class LocationService:
         self.config.setWindowFlags(Qt.WindowStaysOnTopHint)  # type: ignore
         self.config.show()
 
-    def show_map(self) -> None:
+    def show_maps(self) -> None:
         """
-        Displays the map dialog window.
+        Displays the maps dialog window.
         """
-        self.map.setWindowFlags(Qt.WindowStaysOnTopHint)  # type: ignore
-        self.map.show()
+        self.maps.setWindowFlags(Qt.WindowStaysOnTopHint)  # type: ignore
+        self.maps.show()
 
     def show_place(self) -> None:
         """
