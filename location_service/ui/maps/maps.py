@@ -3,44 +3,45 @@ import os
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt import uic
 
-from ...functions.map import MapFunctions
+from ...functions.maps import MapsFunctions
 from ...utils.configuration_handler import ConfigurationHandler
 
 
-class MapUi(QDialog):
+class MapsUi(QDialog):
     """
-    A dialog for managing map configurations and adding vector tile layers to a
+    A dialog for managing maps configurations and adding vector tile layers to a
     QGIS project.
     """
 
-    UI_PATH = os.path.join(os.path.dirname(__file__), "map.ui")
-    KEY_MAP = "map_value"
+    UI_PATH = os.path.join(os.path.dirname(__file__), "maps.ui")
+    MAP_STYLES = ("Standard", "Monochrome", "Hybrid", "Satellite")
 
     def __init__(self) -> None:
         """
-        Initializes the Map dialog, loads UI components, and populates the map options.
+        Initializes the Maps dialog, loads UI components, and populates the maps options.
         """
         super().__init__()
         self.ui = uic.loadUi(self.UI_PATH, self)
         self.button_add.clicked.connect(self._add)
         self.button_cancel.clicked.connect(self._cancel)
-        self.map = MapFunctions()
+        self.maps = MapsFunctions()
         self.configuration_handler = ConfigurationHandler()
-        self._populate_map_options()
+        self._populate_maps_options()
 
-    def _populate_map_options(self) -> None:
+    def _populate_maps_options(self) -> None:
         """
-        Populates the map options dropdown with available configurations.
+        Populates the maps options dropdown with available configurations.
         """
-        map = self.configuration_handler.get_setting(self.KEY_MAP)
-        self.map_comboBox.addItem(map)
+        for style in self.MAP_STYLES:
+            self.style_comboBox.addItem(style)
 
     def _add(self) -> None:
         """
         Adds the selected vector tile layer to the QGIS project and closes the dialog.
         """
         try:
-            self.map.add_vector_tile_layer()
+            select_style = self.style_comboBox.currentText()
+            self.maps.add_vector_tile_layer(select_style)
             self.close()
         except Exception as e:
             QMessageBox.critical(
