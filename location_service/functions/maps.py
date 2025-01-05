@@ -1,9 +1,10 @@
+import urllib.parse
+
 from typing import Tuple
 
-from qgis.core import QgsProject, QgsVectorTileLayer
+from qgis.core import QgsProject, QgsRasterLayer
 
 from ..utils.configuration_handler import ConfigurationHandler
-
 
 class MapsFunctions:
     """
@@ -32,26 +33,21 @@ class MapsFunctions:
         apikey = self.configuration_handler.get_setting(self.KEY_APIKEY)
         return region, apikey
 
-    def add_vector_tile_layer(self, selected_style: str) -> str:
+    def add_xyz_tile_layer(self, selected_style: str) -> str:
         """
-        Adds a vector tile layer into the current QGIS project using
+        Adds an XYZ tile layer (raster tile) into the current QGIS project using
         configuration settings.
         """
         try:
             region_value, apikey_value = self.get_configuration_settings()
-            style_url = (
-                f"https://maps.geo.{region_value}.amazonaws.com/v2/styles/"
-                f"{selected_style}/descriptor?key={apikey_value}"
-            )
             tile_url = (
-                f"https://maps.geo.{region_value}.amazonaws.com/v2/tiles/"
-                f"vector.basemap/{{z}}/{{x}}/{{y}}?key={apikey_value}"
+                f"https://als.dayjournal.dev/{region_value}/{selected_style}/"
+                f"{{z}}/{{x}}/{{y}}?APIkey={apikey_value}"
             )
-            layer_url = f"styleUrl={style_url}&type=xyz&url={tile_url}&zmax=14&zmin=0"
-            vector_tile = QgsVectorTileLayer(layer_url, selected_style)
-            QgsProject.instance().addMapLayer(vector_tile)
-            vector_tile.loadDefaultStyle()
+            layer_url = f"type=xyz&url={tile_url}&zmin=0&zmax=18"
+            xyz_tile_layer = QgsRasterLayer(layer_url, selected_style, "wms")
+            QgsProject.instance().addMapLayer(xyz_tile_layer)
         except KeyError as e:
             raise KeyError(f"Missing configuration for {e!r}") from e
         except Exception as e:
-            raise Exception(f"Failed to load vector tile layer: {e!r}") from e
+            raise Exception(f"Failed to load XYZ tile layer: {e!r}") from e
