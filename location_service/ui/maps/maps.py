@@ -41,11 +41,11 @@ class MapsUi(QDialog):
         """
         try:
             select_style = self.style_comboBox.currentText()
-            self.maps.add_vector_tile_layer(select_style)
+            self.maps.add_xyz_tile_layer(select_style)
             self.close()
         except Exception as e:
             QMessageBox.critical(
-                self, "Error", f"Failed to add vector tile layer: {e!r}"
+                self, "Error", f"Failed to add raster tile layer: {e!r}"
             )
 
     def _cancel(self) -> None:
