@@ -4,7 +4,7 @@ Read this in other languages: [Japanese](./README_ja.md)
 
 ![logo](img/logo.png)
 
-This plugin uses the functionality of Amazon Location Service in QGIS.  
+This plugin uses the functionality of Amazon Location Service v2 in QGIS.  
 
 - [QGIS](https://qgis.org)  
 - [Amazon Location Service](https://aws.amazon.com/location)  
@@ -15,22 +15,14 @@ This plugin uses the functionality of Amazon Location Service in QGIS.
 
 ## blog
 
-[Amazon Location Service Plugin for QGIS released in OSS](https://dev.to/aws-heroes/amazon-location-service-plugin-for-qgis-released-in-oss-28fd)  
 
 ## Usage
 
-### Building an Amazon Location Service Resources
+### Building an Amazon Location Service API Key
 
 ![location-service](img/location-service.png)
 
-Select from the following to build your resources
-
-- AWS Management Console
-- AWS CDK
-- AWS CloudFormation
-
-[Building an Amazon Location Service Resources with AWS CDK and AWS CloudFormation](https://dev.to/aws-heroes/building-an-amazon-location-service-resources-with-aws-cdk-and-aws-cloudformation-22jj)  
-[dayjournal memo - Amazon Location Service](https://memo.dayjournal.dev/tags/amazon-location-service/)  
+[Building an Amazon Location Service v2 API Key](https://memo.dayjournal.dev/memo/amazon-location-service-007)  
 
 ### Install QGIS Plugin
 
@@ -45,9 +37,9 @@ Plugins can also be installed by loading a [zip file](https://github.com/dayjour
 
 ![menu](img/menu.png)
 
-- Config: Set each resource name and API key
-- Map: Map display function
-- Place: Geocoding function
+- Config: Set each region name and API key
+- Maps: Map display function
+- Places: Geocoding function
 - Routes: Routing function
 - Terms: Display Terms of Use page
 
@@ -56,37 +48,33 @@ Plugins can also be installed by loading a [zip file](https://github.com/dayjour
 ![config](img/config.png)
 
 1. Click the “Config” menu
-2. Set each resource name and API key
+2. Set each region name and API key
     - Region: ap-xxxxx
     - API Key: v1.public.xxxxx
-    - Map Name: Mapxxxxx
-    - Place Name: Placexxxxx
-    - Routes Name: Routesxxxxx
 3. Click “Save“
 
-### Map Function
+### Maps Function
 
-![map](img/map.gif)
+![maps](img/maps.gif)
 
-1. Click the “Map” menu
+1. Click the “Maps” menu
 2. Select “Map Name“
 3. Click “Add“
 4. The map is displayed as a layer
 
-※ As of May 2024, only one style can be displayed.
+### Places Function
 
-### Place Function
+![places](img/places.gif)
 
-![place](img/place.gif)
-
-1. Click the “Place” menu
+1. Click the “Places” menu
 2. Select “Select Function“
-3. Click “Get Location“
-4. Click on the location you wish to search
-5. Click “Search”
-6. Search results are displayed in layers
+3. Enter text in “QueryText“
+4. Click “Get Location“
+5. Click on the location you wish to search
+6. Click “Search”
+7. Search results are displayed in layers
 
-※ As of May 2024, only ”SearchPlaceIndexForPosition” is available.
+※ As of January 2025, only ”SearchText” is available.
 
 ### Routes Function
 
@@ -101,7 +89,7 @@ Plugins can also be installed by loading a [zip file](https://github.com/dayjour
 7. Click “Search”
 8. Search results are displayed in layers
 
-※ As of May 2024, only ”CalculateRoute” is available.
+※ As of January 2025, only ”CalculateRoute” is available.
 
 ### Terms Function
 
@@ -123,4 +111,4 @@ b. Layer routes from HERE on top of a map from another third-party provider, or 
 
 Python modules are released under the GNU General Public License v2.0
 
-Copyright (c) 2024 Yasunori Kirimoto
+Copyright (c) 2024-2025 Yasunori Kirimoto

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>360</width>
-    <height>292</height>
+    <height>373</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -17,13 +17,13 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Place</string>
+   <string>Places</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="main_label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Place&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Places&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -40,14 +40,33 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_5">
       <item row="0" column="0">
-       <widget class="QLabel" name="place_label">
+       <widget class="QLabel" name="places_label">
         <property name="text">
          <string>Select Function</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="place_comboBox"/>
+       <widget class="QComboBox" name="places_comboBox"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="0" column="0">
+       <widget class="QLabel" name="text_label">
+        <property name="text">
+         <string>QueryText</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="text_lineEdit"/>
       </item>
      </layout>
     </widget>
@@ -59,34 +78,34 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="1" column="0">
-       <widget class="QLabel" name="lat_label">
-        <property name="text">
-         <string>Latitude</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="button_click">
-        <property name="text">
-         <string>Get Location</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
        <widget class="QLabel" name="lon_label">
         <property name="text">
          <string>Longitude</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="3" column="1">
+       <widget class="QPushButton" name="button_click">
+        <property name="text">
+         <string>Get Location</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
        <widget class="QLineEdit" name="lat_lineEdit">
         <property name="enabled">
          <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="2" column="0">
+       <widget class="QLabel" name="lat_label">
+        <property name="text">
+         <string>Latitude</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
        <widget class="QLineEdit" name="lon_lineEdit">
         <property name="enabled">
          <bool>false</bool>

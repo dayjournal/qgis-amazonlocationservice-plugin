@@ -25,12 +25,10 @@ class RoutesFunctions:
     """
 
     KEY_REGION = "region_value"
-    KEY_ROUTES = "routes_value"
     KEY_APIKEY = "apikey_value"
     WGS84_CRS = "EPSG:4326"
     LAYER_TYPE = "LineString"
-    FIELD_DISTANCE = "Distance"
-    FIELD_DURATION = "DurationSec"
+    FIELD_ROADNAME = "RoadName"
     LINE_COLOR = QColor(255, 0, 0)
     LINE_WIDTH = 2.0
 
@@ -41,20 +39,19 @@ class RoutesFunctions:
         self.configuration_handler = ConfigurationHandler()
         self.api_handler = ExternalApiHandler()
 
-    def get_configuration_settings(self) -> Tuple[str, str, str]:
+    def get_configuration_settings(self) -> Tuple[str, str]:
         """
         Fetches necessary configuration settings from the settings manager.
 
         Returns:
-            Tuple[str, str, str]: A tuple containing the region,
-            route calculator name, and API key.
+            Tuple[str, str]: A tuple containing the region
+            and API key.
         """
         region = self.configuration_handler.get_setting(self.KEY_REGION)
-        routes = self.configuration_handler.get_setting(self.KEY_ROUTES)
         apikey = self.configuration_handler.get_setting(self.KEY_APIKEY)
-        return region, routes, apikey
+        return region, apikey
 
-    def calculate_route(
+    def calculate_routes(
         self, st_lon: float, st_lat: float, ed_lon: float, ed_lat: float
     ) -> Dict[str, Any]:
         """
@@ -69,15 +66,12 @@ class RoutesFunctions:
         Returns:
             A dictionary containing the calculated route data.
         """
-        region, routes, apikey = self.get_configuration_settings()
-        routes_url = (
-            f"https://routes.geo.{region}.amazonaws.com/routes/v0/calculators/"
-            f"{routes}/calculate/route?key={apikey}"
-        )
+        region, apikey = self.get_configuration_settings()
+        routes_url = f"https://routes.geo.{region}.amazonaws.com/v2/routes?key={apikey}"
         data = {
-            "DeparturePosition": [st_lon, st_lat],
-            "DestinationPosition": [ed_lon, ed_lat],
-            "IncludeLegGeometry": "true",
+            "Origin": [st_lon, st_lat],
+            "Destination": [ed_lon, ed_lat],
+            "LegGeometryFormat": "Simple",
         }
         result = self.api_handler.send_json_post_request(routes_url, data)
         if result is None:
@@ -91,9 +85,8 @@ class RoutesFunctions:
         Args:
             data (Dict): Route data including the route legs and geometry.
         """
-        routes = self.configuration_handler.get_setting(self.KEY_ROUTES)
         layer = QgsVectorLayer(
-            f"{self.LAYER_TYPE}?crs={self.WGS84_CRS}", routes, "memory"
+            f"{self.LAYER_TYPE}?crs={self.WGS84_CRS}", "CalculateRoutes", "memory"
         )
         self.setup_layer(layer, data)
 
@@ -120,12 +113,11 @@ class RoutesFunctions:
             layer (QgsVectorLayer): The layer to which fields are added.
         """
         fields = QgsFields()
-        fields.append(QgsField(self.FIELD_DISTANCE, QVariant.Double))
-        fields.append(QgsField(self.FIELD_DURATION, QVariant.Int))
+        fields.append(QgsField(self.FIELD_ROADNAME, QVariant.String))
         layer.dataProvider().addAttributes(fields)
         layer.updateFields()
 
-    def add_features(self, layer: QgsVectorLayer, data: Dict[str, Any]) -> None:
+    def add_features(self, layer: QgsVectorLayer, data: Dict) -> None:
         """
         Adds features to the layer based on the route data.
 
@@ -134,16 +126,19 @@ class RoutesFunctions:
             data (Dict): The route data containing legs and geometry.
         """
         features = []
-        for leg in data["Legs"]:
-            line_points = [
-                QgsPointXY(coord[0], coord[1])
-                for coord in leg["Geometry"]["LineString"]
-            ]
-            geometry = QgsGeometry.fromPolylineXY(line_points)
-            feature = QgsFeature(layer.fields())
-            feature.setGeometry(geometry)
-            feature.setAttributes([leg["Distance"], leg["DurationSeconds"]])
-            features.append(feature)
+        for route in data.get("Routes", []):
+            for road in route.get("MajorRoadLabels", []):
+                roadname = road.get("RoadName", {}).get("Value", None)
+            for leg in route.get("Legs", []):
+                line_points = [
+                    QgsPointXY(coord[0], coord[1])
+                    for coord in leg["Geometry"]["LineString"]
+                ]
+                geometry = QgsGeometry.fromPolylineXY(line_points)
+                feature = QgsFeature(layer.fields())
+                feature.setAttributes([roadname])
+                feature.setGeometry(geometry)
+                features.append(feature)
         layer.dataProvider().addFeatures(features)
 
     def apply_layer_style(self, layer: QgsVectorLayer) -> None:
