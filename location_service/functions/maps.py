@@ -1,10 +1,9 @@
-import urllib.parse
-
 from typing import Tuple
 
 from qgis.core import QgsProject, QgsRasterLayer
 
 from ..utils.configuration_handler import ConfigurationHandler
+
 
 class MapsFunctions:
     """
